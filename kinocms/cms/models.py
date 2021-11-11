@@ -1,3 +1,59 @@
 from django.db import models
 
-# Create your models here.
+
+class Cinema(models.Model):
+    name = models.CharField(max_length=50, verbose_name='название')
+    description = models.TextField(verbose_name='описание')
+    city = models.CharField(max_length=20, verbose_name='город')
+    address = models.CharField(max_length=50, verbose_name='адрес')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'кинотеатры'
+        verbose_name = 'кинотеатр'
+
+
+class User(models.Model):
+    GENDER_CHOICES = [
+        ('Man', 'Мужчина'),
+        ('Woman', 'Женщина')
+    ]
+    first_name = models.CharField(max_length=20, verbose_name='имя')
+    last_name = models.CharField(max_length=30, verbose_name='фамилия')
+    username = models.CharField(max_length=20, verbose_name='псевдоним')
+    email = models.EmailField(verbose_name='эл.почта')
+    phone_number = models.CharField(max_length=15, verbose_name='номер мобильного')
+    city = models.CharField(max_length=20, verbose_name='город')
+    date_of_birth = models.DateField(verbose_name='дата рождения')
+    hashed_password = models.CharField(max_length=100, verbose_name='пароль')
+    gender = models.CharField(max_length=7, choices=GENDER_CHOICES, verbose_name='пол')
+    card_number = models.IntegerField(null=True, blank=True, verbose_name='номер карты')
+
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        verbose_name_plural = 'пользователи'
+        verbose_name = 'пользователь'
+
+
+class Film(models.Model):
+    name = models.CharField(max_length=50, verbose_name='название')
+    genre = models.CharField(max_length=50, verbose_name='жанр')
+    age_limit = models.CharField(max_length=50, verbose_name='возрастное ограничение')
+    premiere_date = models.DateField(db_index=True, verbose_name='дата премьеры')
+    country = models.CharField(max_length=30, verbose_name='страна')
+    duration = models.CharField(max_length=20, verbose_name='продолжительность')
+    budget = models.CharField(max_length=20, verbose_name='бюджет')
+    director = models.CharField(max_length=100, verbose_name='режиссер')
+    producer = models.CharField(max_length=100, verbose_name='продюсер')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'фильмы'
+        verbose_name = 'фильм'
+        ordering = ['-premiere_date']
