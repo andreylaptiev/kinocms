@@ -5,7 +5,7 @@ class Cinema(models.Model):
     name = models.CharField(max_length=50, verbose_name='название')
     description = models.TextField(verbose_name='описание')
     city = models.CharField(max_length=20, verbose_name='город')
-    address = models.CharField(max_length=50, verbose_name='адрес')
+    address = models.CharField(max_length=50, verbose_name='адрес', unique=True)
 
     def __str__(self):
         return self.name
@@ -22,9 +22,9 @@ class User(models.Model):
     ]
     first_name = models.CharField(max_length=20, verbose_name='имя')
     last_name = models.CharField(max_length=30, verbose_name='фамилия')
-    username = models.CharField(max_length=20, verbose_name='псевдоним')
-    email = models.EmailField(verbose_name='эл.почта')
-    phone_number = models.CharField(max_length=15, verbose_name='номер мобильного')
+    username = models.CharField(max_length=20, verbose_name='псевдоним', unique=True)
+    email = models.EmailField(verbose_name='эл.почта', unique=True)
+    phone_number = models.CharField(max_length=15, verbose_name='номер мобильного', unique=True)
     city = models.CharField(max_length=20, verbose_name='город')
     date_of_birth = models.DateField(verbose_name='дата рождения')
     hashed_password = models.CharField(max_length=100, verbose_name='пароль')
@@ -43,7 +43,7 @@ class Film(models.Model):
     name = models.CharField(max_length=50, verbose_name='название')
     genre = models.CharField(max_length=50, verbose_name='жанр')
     age_limit = models.CharField(max_length=50, verbose_name='возрастное ограничение')
-    premiere_date = models.DateField(db_index=True, verbose_name='дата премьеры')
+    premiere_date = models.DateField(verbose_name='дата премьеры')
     country = models.CharField(max_length=30, verbose_name='страна')
     duration = models.CharField(max_length=20, verbose_name='продолжительность')
     budget = models.CharField(max_length=20, verbose_name='бюджет')
@@ -56,4 +56,4 @@ class Film(models.Model):
     class Meta:
         verbose_name_plural = 'фильмы'
         verbose_name = 'фильм'
-        ordering = ['-premiere_date']
+        unique_together = ('name', 'premiere_date')
