@@ -119,7 +119,17 @@ TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
+
+SHORT_DATE_FORMAT = 'd.m.Y'
+SHORT_DATETIME_FORMAT = 'd.m.Y H:i'
+DATE_FORMAT = 'd E Y'
+DATETIME_FORMAT = 'd E Y H:i'
+TIME_FORMAT = 'H:i'
+MONTH_DAY_FORMAT = 'd E'
+DATE_INPUT_FORMATS = ['%d.%m.%Y']
+DATETIME_INPUT_FORMATS = ['%d.%m.%Y %H:%M']
+FIRST_DAY_OF_WEEK = 1
 
 USE_TZ = True
 
