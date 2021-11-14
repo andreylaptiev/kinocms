@@ -1,4 +1,3 @@
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -75,8 +74,19 @@ class Page(models.Model):
 
 class Gallery(models.Model):
     main_picture = models.ImageField(upload_to='cms_pages/', verbose_name='главная картинка')
-    additional_picture = ArrayField(models.ImageField(upload_to='cms_pages/', verbose_name='галерея картинок'), size=5)
+    additional_picture1 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка')
+    additional_picture2 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка')
+    additional_picture3 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка')
+    additional_picture4 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка', null=True, blank=True)
+    additional_picture5 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка', null=True, blank=True)
     page = models.OneToOneField(Page, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Галерея {self.page.name}'
+
+    class Meta:
+        verbose_name_plural = 'галереи'
+        verbose_name = 'галерея'
 
 
 class Seo(models.Model):
@@ -86,6 +96,9 @@ class Seo(models.Model):
     description = models.TextField(verbose_name='description')
     page = models.OneToOneField(Page, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'SEO блок {self.page.name}'
+
     class Meta:
-        verbose_name_plural = 'SEO блок'
+        verbose_name_plural = 'SEO блоки'
         verbose_name = 'SEO блок'
