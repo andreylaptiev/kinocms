@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -57,3 +58,34 @@ class Film(models.Model):
         verbose_name_plural = 'фильмы'
         verbose_name = 'фильм'
         unique_together = ('name', 'premiere_date')
+
+
+# Pages: About cinema, Cafe-Bar, VIP-hall, Advertising, Children Room
+class Page(models.Model):
+    name = models.CharField(max_length=20, verbose_name='название', unique=True)
+    description = models.TextField(verbose_name='описание')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'страницы'
+        verbose_name = 'страница'
+
+
+class Gallery(models.Model):
+    main_picture = models.ImageField(upload_to='cms_pages/', verbose_name='главная картинка')
+    additional_picture = ArrayField(models.ImageField(upload_to='cms_pages/', verbose_name='галерея картинок'), size=5)
+    page = models.OneToOneField(Page, on_delete=models.CASCADE)
+
+
+class Seo(models.Model):
+    url = models.URLField(verbose_name='URL', unique=True)
+    title = models.CharField(max_length=50, verbose_name='title')
+    keywords = models.CharField(max_length=100, verbose_name='keywords')
+    description = models.TextField(verbose_name='description')
+    page = models.OneToOneField(Page, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = 'SEO блок'
+        verbose_name = 'SEO блок'
