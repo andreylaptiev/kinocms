@@ -72,24 +72,7 @@ class Page(models.Model):
         verbose_name = 'страница'
 
 
-class Gallery(models.Model):
-    main_picture = models.ImageField(upload_to='cms_pages/', verbose_name='главная картинка')
-    additional_picture1 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка')
-    additional_picture2 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка')
-    additional_picture3 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка')
-    additional_picture4 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка', null=True, blank=True)
-    additional_picture5 = models.ImageField(upload_to='cms_pages/', verbose_name='доп.картинка', null=True, blank=True)
-    page = models.OneToOneField(Page, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'Галерея {self.page.name}'
-
-    class Meta:
-        verbose_name_plural = 'галереи'
-        verbose_name = 'галерея'
-
-
-class Seo(models.Model):
+class PageSeo(models.Model):
     url = models.URLField(verbose_name='URL', unique=True)
     title = models.CharField(max_length=50, verbose_name='title')
     keywords = models.CharField(max_length=100, verbose_name='keywords')
@@ -97,8 +80,31 @@ class Seo(models.Model):
     page = models.OneToOneField(Page, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'SEO блок {self.page.name}'
+        return self.page.name
+
+    @property
+    def name(self):
+        return self.page.name
 
     class Meta:
         verbose_name_plural = 'SEO блоки'
         verbose_name = 'SEO блок'
+
+
+class PageGallery(models.Model):
+    main_picture = models.ImageField(upload_to='page_gallery/', verbose_name='главная картинка')
+    additional_picture1 = models.ImageField(upload_to='page_gallery/', verbose_name='доп.картинка')
+    additional_picture2 = models.ImageField(upload_to='page_gallery/', verbose_name='доп.картинка')
+    additional_picture3 = models.ImageField(upload_to='page_gallery/', verbose_name='доп.картинка')
+    additional_picture4 = models.ImageField(upload_to='page_gallery/', null=True, blank=True,
+                                            verbose_name='доп.картинка')
+    additional_picture5 = models.ImageField(upload_to='page_gallery/', null=True, blank=True,
+                                            verbose_name='доп.картинка')
+    page = models.OneToOneField(PageSeo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.page.name
+
+    class Meta:
+        verbose_name_plural = 'галереи'
+        verbose_name = 'галерея'
