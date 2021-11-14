@@ -2,3 +2,4 @@
 venv/
 kinocms/.env
 kinocms/Makefile
+kinocms/media
