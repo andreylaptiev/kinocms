@@ -1,0 +1,25 @@
+{% extends 'cms/layout.html' %}
+
+{% block title %}
+   {{ title }}
+{% endblock %}
+
+{% block content %}
+
+{% for form in main_image_form %}
+<form action="{% url 'pages' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Добавить</button>
+</form>
+{% endfor %}
+
+{% for form in additional_image_form %}
+<form action="{% url 'pages' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Добавить</button>
+</form>
+{% endfor %}
+
+{% endblock %}

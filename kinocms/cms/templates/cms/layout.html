@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CSS -->
+	<link href="{% static 'cms/css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<!-- Bootstrap Icons -->
+	<link href="{% static 'cms/css/bootstrap-icons.css' %}" rel="stylesheet">
+
+	<!-- Title Logo -->
+	<link rel="icon" href="{% static 'cms/img/film.svg' %}" type="image/icon type">
+	<title>
+		{% block title %}{% endblock %}
+	</title>
+
+	<style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .col-md-280 { width: 280px; }
+    </style>
+</head>
+<body>
+	<!-- Wrapper -->
+	<div class="wrapper">
+		<!-- Header -->
+		<header>
+			<div class="container">
+				<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+					<a href="{% url 'statistics' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+						<i class="bi bi-film" style="font-size: 2rem;"></i>
+						<span class="fs-4" style="margin-left: 5px;">KinoCMS</span>
+					</a>
+
+					<!-- Admin Avatar -->
+					<ul class="nav nav-pills">
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<img src="{% static 'img/person-circle.svg' %}" alt="User Avatar" width="30" height="30">
+								<span style="margin-left: 5px; color: #000;">Administrator</span>
+							</a>
+						</li>
+						<!-- LogOut Button -->
+						<li class="nav-item">
+							<a href="{% url 'logout' %}" class="nav-link">
+								<img src="{% static 'img/power.svg' %}" alt="Power off button" width="30" height="30">
+							</a>
+						</li>
+					</ul>
+				</header>
+			</div>
+		</header>
+
+		<!-- Page Content -->
+		<main style="min-height: 700px;">
+			<div class="container">
+    		<div class="row">
+        	<div class="col-md-3 col-md-280">
+						<!-- Sidebar -->
+						<aside>
+							<div class="shadow-sm p-3 mb-5 bg-body rounded d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 250px;">
+								<ul class="nav nav-pills flex-column mb-auto">
+
+									{% for page in sidebar_pages %}
+										<li class="nav-item">
+											<a href="{% url page.url %}" class="nav-link link-dark" aria-current="page">
+												<i class="bi bi-circle" style="margin-right: 5px;"></i>
+												{{ page.title }}
+											</a>
+										</li>
+									{% endfor %}
+
+								</ul>
+							</div>
+						</aside>
+					</div>
+					<div class="col">
+						<!-- Content -->
+						<article>
+
+							{% block page_name %}{% endblock %}
+							{% block content %}{% endblock %}
+
+						</article>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer>
+			<div class="container">
+				<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+					<p class="col-md-4 mb-0">&copy; 2021 KinoCMS. All rights reserved</p>
+
+					<a href="#" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+						<i class="bi bi-film" style="font-size: 2rem;"></i>
+						<span class="fs-4" style="margin-left: 5px;">KinoCMS</span>
+					</a>
+
+					<ul class="nav col-md-4 justify-content-end">
+						<li class="fs-6">Разработка сайтов: AVADA-MEDIA</li>
+					</ul>
+				</footer>
+			</div>
+		</footer>
+	</div>
+	<!-- Bootstrap Bundle with Popper -->
+	<script src="{% static 'cms/js/bootstrap.bundle.min.js' %}" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>
