@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Gallery(models.Model):
@@ -49,7 +50,7 @@ class Hall(models.Model):
     place_per_row = models.IntegerField(verbose_name='кол-во мест в ряду')
     created_at = models.DateField(auto_now_add=True, verbose_name='дата создания')
     scheme_image = models.ImageField(unique=True, verbose_name='схема зала')
-    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, unique=True, verbose_name='кинотеатр')
+    cinema = models.OneToOneField(Cinema, on_delete=models.CASCADE, verbose_name='кинотеатр')
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, editable=False)
 
     def __str__(self):
@@ -100,24 +101,17 @@ class Film(models.Model):
         unique_together = ('name', 'premiere_date')
 
 
-class User(models.Model):
+class CustomerProfile(models.Model):
     GENDER_CHOICES = [
         ('male', 'Мужчина'),
         ('female', 'Женщина')
     ]
 
-    first_name = models.CharField(max_length=20, verbose_name='имя')
-    last_name = models.CharField(max_length=20, verbose_name='фамилия')
-    username = models.CharField(max_length=30, unique=True, verbose_name='псевдоним')
-    email = models.EmailField(unique=True, verbose_name='эл.почта')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=15, unique=True, verbose_name='номер мобильного')
     city = models.CharField(max_length=20, verbose_name='город')
     date_of_birth = models.DateField(verbose_name='дата рождения')
-    hashed_password = models.CharField(max_length=200, verbose_name='пароль')
-    gender = models.CharField(max_length=6, choice=GENDER_CHOICES, verbose_name='пол')
-
-    def __str__(self):
-        return self.username
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, verbose_name='пол')
 
     class Meta:
         verbose_name = 'пользователь'
