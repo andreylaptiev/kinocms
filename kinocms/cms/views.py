@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
+from . import forms
 
 
 sidebar_pages = [
@@ -29,9 +30,14 @@ def statistics(request):
 
 
 def banners(request):
+    film_banners_form = forms.FilmBannerFormSet()
+    news_banners_form = forms.NewsBannerFormSet()
+
     context = {
         'title': 'CMS | Баннеры',
         'sidebar_pages': sidebar_pages,
+        'film_banners_form': film_banners_form,
+        'news_banners_form': news_banners_form
     }
     return render(request, 'cms/banners.html', context=context)
 
