@@ -4,8 +4,73 @@
    {{ title }}
 {% endblock %}
 
-{% block page_name %}
-    Баннеры/Слайдеры
-{% endblock %}
 
-{% block content %}{% endblock %}
+{% block content %}
+
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="card">
+      <h5 class="card-header text-center">Баннеры фильмов</h5>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            Размер: 1000x190
+          </div>
+          <div class="col-auto">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+              <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+
+          {% for form in film_banners_form %}
+            <div class="col">
+              {{ form.as_p }}
+            </div>
+          {% endfor %}
+
+        </div>
+        <div class="row" style="margin-top: 20px;">
+          <div class="col">
+            Скорость вращения
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 80px; display: inline-block; margin-left: 5px;">
+              <option value="1">1 сек</option>
+              <option value="2">2 cек</option>
+              <option value="3">3 cек</option>
+              <option value="4">4 cек</option>
+              <option value="5">5 cек</option>
+            </select>
+          </div>
+          <div class="col text-center">
+            <input type="button" value="Сохранить" style="width: 120px;">
+          </div>
+          <div class="col"></div>
+        </div>
+        <div class="row">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="card">
+      <h5 class="card-header text-center">Фоновый баннер</h5>
+      <div class="card-body">
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <h5 class="card-header text-center">Баннеры новостей и акций</h5>
+      <div class="card-body">
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
