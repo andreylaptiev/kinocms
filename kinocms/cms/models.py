@@ -50,7 +50,7 @@ class Hall(models.Model):
     place_per_row = models.IntegerField(verbose_name='кол-во мест в ряду')
     created_at = models.DateField(auto_now_add=True, verbose_name='дата создания')
     scheme_image = models.ImageField(unique=True, verbose_name='схема зала')
-    cinema = models.OneToOneField(Cinema, on_delete=models.CASCADE, verbose_name='кинотеатр')
+    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, verbose_name='кинотеатр')
     gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, editable=False)
 
     def __str__(self):
@@ -168,9 +168,6 @@ class Page(models.Model):
     def __str__(self):
         return self.name
 
-    # Для случаев, когда взаимодействуем с БД при переходе по ссылкам
-    # from django.url import reverse
-    # и исп-ть в шаблонах ссылки, которые будут сгенерированы автоматически
     def get_absolute_url(self):
         pass
 
