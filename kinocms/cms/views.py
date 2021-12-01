@@ -1,3 +1,4 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from . import forms
@@ -30,16 +31,24 @@ def statistics(request):
 
 
 def banners(request):
-    film_banners_form = forms.FilmBannerFormSet()
-    news_banners_form = forms.NewsBannerFormSet()
-
+    film_banners_formset = forms.FilmBannerFormSet()
     context = {
         'title': 'CMS | Баннеры',
         'sidebar_pages': sidebar_pages,
-        'film_banners_form': film_banners_form,
-        'news_banners_form': news_banners_form
+        'film_banners_formset': film_banners_formset,
     }
-    return render(request, 'cms/banners.html', context=context)
+
+    if request.method == 'POST':
+        film_banners_formset = forms.FilmBannerFormSet(request.POST, request.FILES)
+
+        if film_banners_formset.is_valid():
+            film_banners_formset.save()
+            return redirect('banners')
+        else:
+            return HttpResponseNotFound()
+
+    else:
+        return render(request, 'cms/banners.html', context=context)
 
 
 def films_list(request):

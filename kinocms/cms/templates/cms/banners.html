@@ -22,33 +22,36 @@
             </div>
           </div>
         </div>
-        <div class="row" style="margin-top: 20px;">
-
-          {% for form in film_banners_form %}
-            <div class="col">
-              {{ form.as_p }}
-            </div>
-          {% endfor %}
-
-        </div>
-        <div class="row" style="margin-top: 20px;">
-          <div class="col">
-            Скорость вращения
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 80px; display: inline-block; margin-left: 5px;">
-              <option value="1">1 сек</option>
-              <option value="2">2 cек</option>
-              <option value="3">3 cек</option>
-              <option value="4">4 cек</option>
-              <option value="5">5 cек</option>
-            </select>
-          </div>
-          <div class="col text-center">
-            <input type="button" value="Сохранить" style="width: 120px;">
-          </div>
-          <div class="col"></div>
-        </div>
         <div class="row">
+          <form enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
+            {% csrf_token %}
+            <div class="row row-cols-4 align-items-center" style="margin-top: 20px;">
 
+              <div class="col">
+                {{ film_banners_formset.as_p }}
+              </div>
+
+              <div class="col text-center">
+                <input type="button" value="Добавить картинку">
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col">
+                Скорость вращения
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 80px; display: inline-block; margin-left: 5px;">
+                  <option value="1">1 сек</option>
+                  <option value="2">2 cек</option>
+                  <option value="3">3 cек</option>
+                  <option value="4">4 cек</option>
+                  <option value="5">5 cек</option>
+                </select>
+              </div>
+              <div class="col text-center">
+                <input type="submit" value="Сохранить" style="width: 120px;">
+              </div>
+              <div class="col"></div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
