@@ -32,7 +32,7 @@ class Cinema(models.Model):
     phone_number = models.CharField(max_length=15, verbose_name='номер телефона')
     email = models.EmailField(verbose_name='эл.почта')
     logo_image = models.ImageField(unique=True, verbose_name='логотип')
-    gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, editable=False)
+    gallery = models.OneToOneField(Gallery, on_delete=models.PROTECT, editable=False)
 
     def __str__(self):
         return self.name
@@ -51,7 +51,7 @@ class Hall(models.Model):
     created_at = models.DateField(auto_now_add=True, verbose_name='дата создания')
     scheme_image = models.ImageField(unique=True, verbose_name='схема зала')
     cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, verbose_name='кинотеатр')
-    gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, editable=False)
+    gallery = models.OneToOneField(Gallery, on_delete=models.PROTECT, editable=False)
 
     def __str__(self):
         return self.name
@@ -90,7 +90,7 @@ class Film(models.Model):
     trailer_url = models.URLField(verbose_name='ссылка на трейлер')
     film_format = models.CharField(max_length=20, choices=FILM_FORMAT_CHOICES, verbose_name='формат')
     is_active = models.BooleanField(verbose_name='статус показа')
-    gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, editable=False)
+    gallery = models.OneToOneField(Gallery, on_delete=models.PROTECT, editable=False)
 
     def __str__(self):
         return self.name
@@ -163,7 +163,7 @@ class Page(models.Model):
     published_at = models.DateField(null=True, blank=True, verbose_name='дата публикации')
     video_url = models.URLField(null=True, blank=True, verbose_name='ссылка на видео')
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, editable=False)
-    gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, editable=False)
+    gallery = models.OneToOneField(Gallery, on_delete=models.PROTECT, editable=False)
 
     def __str__(self):
         return self.name
@@ -189,9 +189,12 @@ class MainPage(models.Model):
 
 
 class FilmBanner(models.Model):
-    image = models.ImageField(unique=True, verbose_name='картинка')
+    image = models.ImageField(upload_to='film_banners/', unique=True, verbose_name='картинка')
     url = models.URLField(verbose_name='URL')
     text = models.CharField(max_length=100, verbose_name='текст')
+
+    def __str__(self):
+        return self.text
 
     class Meta:
         verbose_name = 'баннеры фильмов'
@@ -201,6 +204,9 @@ class FilmBanner(models.Model):
 class NewsBanner(models.Model):
     image = models.ImageField(unique=True, verbose_name='картинка')
     url = models.URLField(verbose_name='URL')
+
+    def __str__(self):
+        return self.url
 
     class Meta:
         verbose_name = 'баннеры новостей'
