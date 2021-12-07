@@ -31,9 +31,10 @@
         </div>
       </div>
 
-      <div class="row" style="margin-top: 20px;">
+      <div class="row" style="margin-top: 10px;">
         <form id="bannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
           {% csrf_token %}
+          {{ formset.management_form }}
 
           <div id="film-banners-list" class="row">
             <div class="film-banners-form">
