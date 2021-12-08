@@ -15,7 +15,7 @@
   }
 </style>
 
-<div class="row" style="margin-bottom: 10px;">
+<div class="row" style="margin-bottom: 20px;">
   <div class="card">
     <h5 class="card-header text-center">Баннеры фильмов</h5>
     <div class="card-body">
@@ -32,7 +32,7 @@
       </div>
 
       <div class="row" style="margin-top: 10px;">
-        <form id="bannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
+        <form id="filmBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
           {% csrf_token %}
           {{ formset.management_form }}
 
@@ -70,20 +70,44 @@
             <option value="5">5 cек</option>
           </select>
         </div>
-        <div class="col text-center">
-        </div>
-        <div class="col"></div>
       </div>
     </div>
   </div>
 </div>
 
 
-<div class="row">
+<div class="row" style="margin-bottom: 20px;">
   <div class="card">
     <h5 class="card-header text-center">Фоновый баннер</h5>
     <div class="card-body">
+      <div class="row">
+        <div class="col">
+          Размер: 2000x3000
+        </div>
+      </div>
+      <div class="row align-items-center" style="margin-top: 20px;">
+        <form id="backgroundBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
+        {% csrf_token %}
+        <div>
+          <input class="form-check-input" type="radio" name="radioButton" id="radio1">
+          <label class="form-check-label" for="radio1">Фото на фон</label>
+        </div>
+        <div>
 
+            <div>
+              {{ background_banner }}
+            </div>
+
+            <input type="submit" value="Сохранить" style="margin-top: 10px;">
+        </div>
+        </form>
+      </div>
+      <div class="row" style="margin-top: 20px;">
+        <div class="col col-md-2">
+          <input class="form-check-input" type="radio" name="radioButton" id="radio2">
+          <label class="form-check-label" for="radio2">Просто фон</label>
+        </div>
+      </div>
     </div>
   </div>
 </div>
