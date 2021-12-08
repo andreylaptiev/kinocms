@@ -37,6 +37,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('city', 'Kyiv')
         extra_fields.setdefault('date_of_birth', '1996-11-13')
         extra_fields.setdefault('gender', 'male')
+        extra_fields.setdefault('language', 'ru')
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
