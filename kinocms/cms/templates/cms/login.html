@@ -24,7 +24,7 @@
         <div class="col" style="margin-top: 50px;">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">CMS Log In</h5>
+              <h4 class="card-title">CMS Log In</h4>
               <form action="{% url 'login' %}" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -34,14 +34,17 @@
                     <p>
                       {{ f }}
                     </p>
-                {% endfor %}
+                    <div>
+                      {{ f.errors }}
+                    </div>
+                  {% endfor %}
 
                 </div>
                 <div class="mb-3 form-check">
                   <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                  <label class="form-check-label" for="exampleCheck1">Запомнить меня</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Log In</button>
+                <button type="submit" class="btn btn-primary">Войти</button>
               </form>
             </div>
           </div>
