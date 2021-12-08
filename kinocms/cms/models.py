@@ -1,10 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+from django.core.mail import send_mail
+from django.conf import settings
+from .managers import CustomUserManager
 
 
 class Gallery(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='название')
-    main_image = models.ImageField(upload_to='???', unique=True, verbose_name='главная картинка')
 
     def __str__(self):
         return self.name
@@ -15,7 +20,7 @@ class Gallery(models.Model):
 
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='???', unique=True, verbose_name='картинка')
+    image = models.ImageField(upload_to='gallery/', unique=True, verbose_name='картинка')
     gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, verbose_name='галерея')
 
     class Meta:
@@ -29,9 +34,10 @@ class Cinema(models.Model):
     city = models.CharField(max_length=20, verbose_name='город')
     address = models.CharField(max_length=50, verbose_name='адрес')
     map_coordinate = models.CharField(max_length=30, verbose_name='координаты Google Maps')
-    phone_number = models.CharField(max_length=15, verbose_name='номер телефона')
+    phone_number = models.CharField(max_length=13, verbose_name='номер телефона')
     email = models.EmailField(verbose_name='эл.почта')
-    logo_image = models.ImageField(unique=True, verbose_name='логотип')
+    logo_image = models.ImageField(upload_to='cinemas/', unique=True, verbose_name='логотип')
+    main_image = models.ImageField(upload_to='cinemas/', unique=True, verbose_name='главная картинка')
     gallery = models.OneToOneField(Gallery, on_delete=models.PROTECT, editable=False)
 
     def __str__(self):
@@ -49,7 +55,8 @@ class Hall(models.Model):
     row_quantity = models.IntegerField(verbose_name='кол-во рядов')
     place_per_row = models.IntegerField(verbose_name='кол-во мест в ряду')
     created_at = models.DateField(auto_now_add=True, verbose_name='дата создания')
-    scheme_image = models.ImageField(unique=True, verbose_name='схема зала')
+    scheme_image = models.ImageField(upload_to='halls/', unique=True, verbose_name='схема зала')
+    main_image = models.ImageField(upload_to='halls/', unique=True, verbose_name='главная картинка')
     cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, verbose_name='кинотеатр')
     gallery = models.OneToOneField(Gallery, on_delete=models.PROTECT, editable=False)
 
@@ -90,6 +97,7 @@ class Film(models.Model):
     trailer_url = models.URLField(verbose_name='ссылка на трейлер')
     film_format = models.CharField(max_length=20, choices=FILM_FORMAT_CHOICES, verbose_name='формат')
     is_active = models.BooleanField(verbose_name='статус показа')
+    main_image = models.ImageField(upload_to='films/', unique=True, verbose_name='главная картинка')
     gallery = models.OneToOneField(Gallery, on_delete=models.PROTECT, editable=False)
 
     def __str__(self):
@@ -101,21 +109,60 @@ class Film(models.Model):
         unique_together = ('name', 'premiere_date')
 
 
-class CustomerProfile(models.Model):
+# Copy and change AbstractUser
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     GENDER_CHOICES = [
         ('male', 'Мужчина'),
         ('female', 'Женщина')
     ]
+    LANGUAGE_CHOICES = [
+        ('ru', 'Русский'),
+        ('ua', 'Украинский')
+    ]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=15, unique=True, verbose_name='номер мобильного')
+    username_validator = UnicodeUsernameValidator()
+
+    first_name = models.CharField(max_length=30, verbose_name='имя')
+    last_name = models.CharField(max_length=30, verbose_name='фамилия')
+    username = models.CharField(max_length=30, validators=[username_validator], unique=True, verbose_name='псевдоним')
+    email = models.EmailField(unique=True, verbose_name='эл.почта')
+    phone_number = models.CharField(max_length=13, unique=True, verbose_name='номер мобильного')
     city = models.CharField(max_length=20, verbose_name='город')
     date_of_birth = models.DateField(verbose_name='дата рождения')
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, verbose_name='пол')
+    language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, verbose_name='язык')
+    is_staff = models.BooleanField(_('staff status'), default=False)
+    is_active = models.BooleanField(_('active'), default=True)
+    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     class Meta:
-        verbose_name = 'пользователь'
-        verbose_name_plural = 'пользователи'
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+        abstract = False
+
+    def clean(self):
+        super().clean()
+        self.email = self.__class__.objects.normalize_email(self.email)
+
+    def get_full_name(self):
+        """
+        Return the first_name plus the last_name, with a space in between.
+        """
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip()
+
+    def get_short_name(self):
+        """Return the short name for the user."""
+        return self.first_name
+
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        """Email this user."""
+        send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
 class Schedule(models.Model):
@@ -134,7 +181,7 @@ class Schedule(models.Model):
 class Reservation(models.Model):
     row_number = models.IntegerField(verbose_name='ряд')
     place_number = models.IntegerField(verbose_name='место')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='посетитель')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='посетитель')
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, verbose_name='событие')
 
     class Meta:
@@ -162,6 +209,7 @@ class Page(models.Model):
     description = models.TextField(verbose_name='описание')
     published_at = models.DateField(null=True, blank=True, verbose_name='дата публикации')
     video_url = models.URLField(null=True, blank=True, verbose_name='ссылка на видео')
+    main_image = models.ImageField(upload_to='pages/', unique=True, verbose_name='главная картинка')
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, editable=False)
     gallery = models.OneToOneField(Gallery, on_delete=models.PROTECT, editable=False)
 
@@ -180,7 +228,6 @@ class MainPage(models.Model):
     phone_number1 = models.CharField(max_length=15, verbose_name='номер телефона 1')
     phone_number2 = models.CharField(max_length=15, null=True, blank=True, verbose_name='номер телефона 2')
     seo_text = models.TextField(verbose_name='SEO-текст')
-    bg_image = models.ImageField(unique=True, verbose_name='фоновое изображение')
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name='SEO-блок')
 
     class Meta:
@@ -189,9 +236,9 @@ class MainPage(models.Model):
 
 
 class FilmBanner(models.Model):
-    image = models.ImageField(upload_to='film_banners/', unique=True, verbose_name='картинка')
-    url = models.URLField(verbose_name='URL')
-    text = models.CharField(max_length=100, verbose_name='текст')
+    image = models.ImageField(upload_to='main_page/film_banners/', unique=True)
+    url = models.URLField()
+    text = models.CharField(max_length=100)
 
     def __str__(self):
         return self.text
@@ -202,7 +249,7 @@ class FilmBanner(models.Model):
 
 
 class NewsBanner(models.Model):
-    image = models.ImageField(unique=True, verbose_name='картинка')
+    image = models.ImageField(upload_to='main_page/news_banners/', unique=True, verbose_name='картинка')
     url = models.URLField(verbose_name='URL')
 
     def __str__(self):
