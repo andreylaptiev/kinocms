@@ -25,20 +25,13 @@ class LoginUser(LoginView):
     form_class = forms.UserLoginForm
     template_name = 'cms/login.html'
 
-    def get_context_data(self, *args, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def get_success_url(self):
-        return reverse_lazy('statistics')
-
 
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect('login_user')
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def statistics(request):
     context = {
         'title': 'CMS | Статистика',
@@ -47,7 +40,7 @@ def statistics(request):
     return render(request, 'cms/statistics.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def banners(request):
     film_banners_formset = forms.FilmBannerFormSet()
     background_banner = forms.BackgroundBannerForm()
@@ -77,7 +70,7 @@ def banners(request):
         return render(request, 'cms/banners.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def films_list(request):
     context = {
         'title': 'CMS | Фильмы',
@@ -86,7 +79,7 @@ def films_list(request):
     return render(request, 'cms/films/films_list.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def cinemas_list(request):
     context = {
         'title': 'CMS | Кинотеатры',
@@ -95,7 +88,7 @@ def cinemas_list(request):
     return render(request, 'cms/cinemas/cinemas_list.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def news_list(request):
     context = {
         'title': 'CMS | Новости',
@@ -104,7 +97,7 @@ def news_list(request):
     return render(request, 'cms/news/news_list.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def actions_list(request):
     context = {
         'title': 'CMS | Акции',
@@ -113,7 +106,7 @@ def actions_list(request):
     return render(request, 'cms/actions/actions_list.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def pages_list(request):
     context = {
         'title': 'CMS | Страницы',
@@ -122,7 +115,7 @@ def pages_list(request):
     return render(request, 'cms/pages/pages_list.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def users(request):
     context = {
         'title': 'CMS | Пользователи',
@@ -131,7 +124,7 @@ def users(request):
     return render(request, 'cms/users.html', context=context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='login_user')
 def mailing(request):
     context = {
         'title': 'CMS | Рассылка',
