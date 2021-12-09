@@ -40,7 +40,7 @@
                   {% endfor %}
 
                   {% if request.GET.next %}
-                    <input type="hidden" name="next" value ="{{ next }}">
+                    <input type="hidden" name="next" value ="{{ request.GET.next }}">
                   {% endif %}
 
                 </div>
