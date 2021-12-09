@@ -37,6 +37,7 @@ INTERNAL_IPS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'cms.apps.CmsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -112,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'cms.CustomUser'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 
 # Internationalization
@@ -145,7 +146,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [
-    BASE_DIR / 'cms/static/cms'
+    BASE_DIR / 'cms/static/cms',
+    BASE_DIR / 'users/static/users',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
