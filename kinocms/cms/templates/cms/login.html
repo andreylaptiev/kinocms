@@ -25,7 +25,7 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">CMS Log In</h4>
-              <form action="{% url 'login' %}" method="post">
+              <form action="{% url 'login_user' %}" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
 
@@ -38,6 +38,10 @@
                       {{ f.errors }}
                     </div>
                   {% endfor %}
+
+                  {% if request.GET.next %}
+                    <input type="hidden" name="next" value ="{{ next }}">
+                  {% endif %}
 
                 </div>
                 <div class="mb-3 form-check">
