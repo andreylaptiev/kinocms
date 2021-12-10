@@ -24,7 +24,6 @@
       body {
         background-color: #f8f9fa;
       }
-      .col-md-280 { width: 21%; }
     </style>
 </head>
 <body>
@@ -34,10 +33,10 @@
 		<header>
 			<div class="container">
 				<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-					<a href="{% url 'statistics' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-						<i class="bi bi-film" style="font-size: 2rem;"></i>
-						<span class="fs-4" style="margin-left: 5px;">KinoCMS</span>
-					</a>
+						<a href="{% url 'statistics' %}" class="d-flex align-items-center mb-md-0 me-md-auto text-dark text-decoration-none">
+							<i class="bi bi-film" style="font-size: 2rem;"></i>
+							<span class="fs-4" style="margin-left: 5px;">KinoCMS</span>
+						</a>
 
 					<!-- Admin Avatar -->
 					<ul class="nav nav-pills">
@@ -59,13 +58,13 @@
 		</header>
 
 		<!-- Page Content -->
-		<main style="min-height: 700px;">
+		<main style="min-height: 500px;">
 			<div class="container">
-    		<div class="row">
-        	<div class="col-md-3 col-md-280">
+    		<div class="row mb-4">
+        	<div class="col-md-auto justify-content-center">
 						<!-- Sidebar -->
 						<aside>
-							<div class="shadow-sm p-3 mb-5 bg-body rounded d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 250px;">
+							<div class="shadow-sm p-3 mb-4 bg-body rounded d-flex flex-column flex-shrink-0 p-3 bg-light">
 								<ul class="nav nav-pills flex-column mb-auto">
 
 									{% for page in sidebar_pages %}
@@ -97,10 +96,10 @@
 		<!-- Footer -->
 		<footer>
 			<div class="container">
-				<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+				<footer class="d-flex flex-wrap justify-content-center align-items-center py-3 border-top">
 					<p class="col-md-4 mb-0">&copy; 2021 KinoCMS. All rights reserved</p>
 
-					<div class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
+					<div class="col-md-4 d-flex align-items-center justify-content-center mb-md-0 me-md-auto">
 						<a href="#" class="link-dark text-decoration-none">
 							<i class="bi bi-film" style="font-size: 2rem;"></i>
 							<span class="fs-4" style="margin-left: 5px;">KinoCMS</span>
