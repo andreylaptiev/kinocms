@@ -7,12 +7,14 @@ from . import models
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    username = forms.CharField(label='Псевдоним')
+    email = forms.EmailField(label='Эл.почта')
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
 
     class Meta:
         model = models.CustomUser
-        fields = '__all__'
+        exclude = ['is_staff', 'is_active', 'date_joined']
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -36,11 +38,20 @@ class UserChangeForm(forms.ModelForm):
         the user, but replaces the password field with admins
         disabled password hash display field.
         """
+    username = forms.CharField(label='Псевдоним')
+    email = forms.EmailField(label='Эл.почта')
+    first_name = forms.CharField(label='Имя')
+    last_name = forms.CharField(label='Фамилия')
+    phone_number = forms.CharField(label='Номер мобильного')
+    city = forms.CharField(label='Город')
+    date_of_birth = forms.DateField(label='Дата рождения')
+    gender = forms.CharField(label='Пол')
+    language = forms.CharField(label='Язык')
     password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = models.CustomUser
-        fields = '__all__'
+        exclude = ['is_staff', 'is_active', 'date_joined']
 
 
 class UserLoginForm(AuthenticationForm):
