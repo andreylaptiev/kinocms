@@ -11,17 +11,15 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'phone_number',
                     'city', 'date_of_birth', 'gender', 'language', 'is_staff', 'is_active'
                     )
-    list_filter = ('is_staff',)
+    list_filter = ('is_staff', 'is_active')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'username', 'phone_number', 'city',
-                                      'date_of_birth', 'gender', 'language', 'is_active')}),
-        ('Permissions', {'fields': ('is_staff',)}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'username', 'phone_number',
+                                      'city', 'date_of_birth', 'gender', 'language',)}),
     )
     add_fieldsets = (
         (None, {'classes': ('wide',),
-                'fields': ('first_name', 'last_name', 'username', 'email', 'phone_number', 'city', 'date_of_birth',
-                           'gender', 'language', 'password1', 'password2', 'is_staff', 'is_active')}),
+                'fields': ('username', 'email', 'password1', 'password2')}),
     )
     search_fields = ('username',)
     ordering = ('username',)
