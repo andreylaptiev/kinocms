@@ -31,13 +31,6 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('first_name', 'Andrey')
-        extra_fields.setdefault('last_name', 'Laptiev')
-        extra_fields.setdefault('phone_number', '+380951231231')
-        extra_fields.setdefault('city', 'Kyiv')
-        extra_fields.setdefault('date_of_birth', '1996-11-13')
-        extra_fields.setdefault('gender', 'male')
-        extra_fields.setdefault('language', 'ru')
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
