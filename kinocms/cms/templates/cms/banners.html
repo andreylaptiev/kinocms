@@ -13,9 +13,12 @@
   .hidden {
     display: none;
   }
+  .no-margin {
+    margin: 0px 0px 0px 0px;
+  }
 </style>
 
-<div class="row" style="margin-bottom: 20px;">
+<div class="row mb-4 no-margin">
   <div class="card">
     <h5 class="card-header text-center">На главной верх</h5>
     <div class="card-body">
@@ -59,10 +62,6 @@
         </form>
       </div>
 
-
-      <script src="{% static 'cms/js/add_film_banners_form.js' %}"></script>
-
-
       <div class="row">
         <div class="col">
           Скорость вращения
@@ -71,7 +70,7 @@
             <option value="2">2 cек</option>
             <option value="3">3 cек</option>
             <option value="4">4 cек</option>
-            <option value="5">5 cек</option>
+            <option value="5" selected>5 cек</option>
           </select>
         </div>
       </div>
@@ -80,7 +79,7 @@
 </div>
 
 
-<div class="row" style="margin-bottom: 20px;">
+<div class="row mb-4 no-margin">
   <div class="card">
     <h5 class="card-header text-center">Фоновый баннер</h5>
     <div class="card-body">
@@ -105,6 +104,20 @@
         </div>
         <div class="col-sm-auto">
           <p>
+            <img id="blah" src="#" class="hidden" alt="your image" width="200"/>
+          </p>
+        </div>
+        <script>
+          id_image.onchange = evt => {
+            const [file] = id_image.files
+            if (file) {
+              blah.src = URL.createObjectURL(file)
+              blah.setAttribute('class', '')
+            }
+          }
+        </script>
+        <div class="col-sm-auto">
+          <p>
             <input type="submit" value="Сохранить" style="width: 100px;">
           </p>
         </div>
@@ -122,7 +135,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row no-margin">
   <div class="card">
     <h5 class="card-header text-center">Баннеры новостей и акций</h5>
     <div class="card-body">
@@ -130,5 +143,7 @@
     </div>
   </div>
 </div>
+
+<script src="{% static 'cms/js/add_empty_main_page_top_banner_form.js' %}"></script>
 
 {% endblock %}
