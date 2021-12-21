@@ -59,7 +59,7 @@ class MainPageTopBannerForm(forms.ModelForm):
 
     class Meta:
         model = models.MainPageTopBanner
-        exclude = ['gallery']
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -83,3 +83,27 @@ class BackgroundBannerForm(forms.ModelForm):
     class Meta:
         model = models.Image
         exclude = ['gallery']
+
+
+class MainPageNewsBannerForm(forms.ModelForm):
+    image = forms.ImageField(label='Картинка')
+    url = forms.URLField(label='URL')
+
+    class Meta:
+        model = models.MainPageNewsBanner
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update(
+                    {'placeholder': self.fields[field].label,
+                     'class': 'form-control'}
+            )
+
+
+MainPageNewsBannerFormSet = forms.modelformset_factory(models.MainPageNewsBanner,
+                                                       form=MainPageNewsBannerForm,
+                                                       can_delete=True,
+                                                       extra=0
+                                                       )
