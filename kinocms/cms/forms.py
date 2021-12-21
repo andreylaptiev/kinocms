@@ -1,22 +1,80 @@
 from django import forms
 from . import models
+from django.forms.widgets import Textarea
 
 
-class FilmBannerForm(forms.ModelForm):
+class FilmForm(forms.ModelForm):
+    FILM_FORMAT_CHOICES = [
+        ('2D', '2D'),
+        ('3D', '3D'),
+        ('4DX', '4DX'),
+        ('IMAX', 'IMAX')
+    ]
+    GENRE_CHOICES = [
+        ('action', 'Боевик'),
+        ('comedy', 'Комедия'),
+        ('detective', 'Детектив'),
+        ('horror', 'Ужасы'),
+        ('thriller', 'Триллер')
+    ]
+    description = forms.CharField(label='Описание',
+                                  widget=Textarea(attrs={'rows': 5})
+                                  )
+
     class Meta:
-        model = models.FilmBanner
+        model = models.Film
+        exclude = ['gallery', 'seo']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update(
+                    {'placeholder': self.fields[field].label,
+                     'class': 'form-control'}
+            )
+
+
+class SeoForm(forms.ModelForm):
+    seo_description = forms.CharField(label='Description',
+                                      widget=Textarea(attrs={'rows': 3})
+                                      )
+
+    class Meta:
+        model = models.Seo
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update(
-                    {'placeholder': f'{field.capitalize()}',
+                    {'placeholder': self.fields[field].label,
                      'class': 'form-control'}
             )
 
 
-FilmBannerFormSet = forms.modelformset_factory(models.FilmBanner, form=FilmBannerForm, can_delete=True, extra=0)
+class MainPageTopBannerForm(forms.ModelForm):
+    image = forms.ImageField(label='Картинка')
+    url = forms.URLField(label='URL')
+    text = forms.CharField(label='Текст')
+
+    class Meta:
+        model = models.MainPageTopBanner
+        exclude = ['gallery']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update(
+                    {'placeholder': self.fields[field].label,
+                     'class': 'form-control'}
+            )
+
+
+MainPageTopBannerFormSet = forms.modelformset_factory(models.MainPageTopBanner,
+                                                      form=MainPageTopBannerForm,
+                                                      can_delete=True,
+                                                      extra=0
+                                                      )
 
 
 class BackgroundBannerForm(forms.ModelForm):
@@ -24,7 +82,4 @@ class BackgroundBannerForm(forms.ModelForm):
 
     class Meta:
         model = models.Image
-        fields = ('image',)
-
-
-NewsBannerFormSet = forms.modelformset_factory(models.NewsBanner, fields='__all__', extra=3)
+        exclude = ['gallery']
