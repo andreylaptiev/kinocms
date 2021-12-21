@@ -30,25 +30,32 @@ def statistics(request):
 
 @login_required(login_url='login_user')
 def banners(request):
-    film_banners_formset = forms.FilmBannerFormSet()
+    top_banner_formset = forms.MainPageTopBannerFormSet(prefix='top_banners')
     background_banner = forms.BackgroundBannerForm()
+    news_banner_formset = forms.MainPageNewsBannerFormSet(prefix='news_banners')
     context = {
         'title': 'CMS | Баннеры',
         'sidebar_pages': sidebar_pages,
-        'film_banners_formset': film_banners_formset,
+        'top_banner_formset': top_banner_formset,
         'background_banner': background_banner,
+        'news_banner_formset': news_banner_formset,
     }
 
     if request.method == 'POST':
-        film_banners_formset = forms.FilmBannerFormSet(request.POST, request.FILES)
+        top_banner_formset = forms.MainPageTopBannerFormSet(request.POST, request.FILES, prefix='top_banners')
         background_banner = forms.BackgroundBannerForm(request.POST, request.FILES)
+        news_banner_formset = forms.MainPageNewsBannerFormSet(request.POST, request.FILES, prefix='news_banners')
 
-        if film_banners_formset.is_valid():
-            film_banners_formset.save()
+        if top_banner_formset.is_valid():
+            top_banner_formset.save()
             return redirect('banners')
 
         elif background_banner.is_valid():
             background_banner.save()
+            return redirect('banners')
+
+        elif news_banner_formset.is_valid():
+            news_banner_formset.save()
             return redirect('banners')
 
         else:
