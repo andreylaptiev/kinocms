@@ -1,13 +1,11 @@
 from django.urls import path
 from .views import *
-from django.conf import settings
-from django.conf.urls.static import static
 
 
 urlpatterns = [
     path('statistics/', statistics, name='statistics'),
     path('banners/', banners, name='banners'),
-    path('film_list/', film_list, name='film_list'),
+    path('film_list/', FilmListView.as_view(), name='film_list'),
     path('film_add/', film_add, name='film_add'),
     # path('film/<int:pk>', FilmDetailView.as_view(), name='film_detail'),
     path('cinema_list/', cinema_list, name='cinema_list'),
