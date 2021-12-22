@@ -1,6 +1,8 @@
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from . import forms
 from . import models
@@ -94,13 +96,17 @@ def film_add(request):
         return render(request, 'cms/film/film_form.html', context=context)
 
 
-@login_required(login_url='login_user')
-def film_list(request):
-    context = {
-        'title': 'CMS | Фильмы',
-        'sidebar_pages': sidebar_pages,
-    }
-    return render(request, 'cms/film/film_list.html', context=context)
+class FilmListView(LoginRequiredMixin, ListView):
+    login_url = 'login_user'
+    model = models.Film
+    template_name = 'cms/film/film_list.html'
+    context_object_name = 'films'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'CMS | Фильмы'
+        context['sidebar_pages'] = sidebar_pages
+        return context
 
 
 @login_required(login_url='login_user')
