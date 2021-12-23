@@ -8,25 +8,9 @@ from . import forms
 from . import models
 
 
-sidebar_pages = [
-    {'title': 'Статистика', 'url': 'statistics'},
-    {'title': 'Баннеры/Слайдеры', 'url': 'banners'},
-    {'title': 'Фильмы', 'url': 'film_list'},
-    {'title': 'Кинотеатры', 'url': 'cinema_list'},
-    {'title': 'Новости', 'url': 'news_list'},
-    {'title': 'Акции', 'url': 'actions_list'},
-    {'title': 'Страницы', 'url': 'pages_list'},
-    {'title': 'Пользователи', 'url': 'users'},
-    {'title': 'Рассылка', 'url': 'mailing'},
-]
-
-
 @login_required(login_url='login_user')
 def statistics(request):
-    context = {
-        'title': 'CMS | Статистика',
-        'sidebar_pages': sidebar_pages,
-    }
+    context = {}
     return render(request, 'cms/statistics.html', context=context)
 
 
@@ -36,8 +20,6 @@ def banners(request):
     background_banner = forms.BackgroundBannerForm()
     news_banner_formset = forms.MainPageNewsBannerFormSet(prefix='news_banners')
     context = {
-        'title': 'CMS | Баннеры',
-        'sidebar_pages': sidebar_pages,
         'top_banner_formset': top_banner_formset,
         'background_banner': background_banner,
         'news_banner_formset': news_banner_formset,
@@ -72,8 +54,6 @@ def film_add(request):
     film_form = forms.FilmForm()
     seo_form = forms.SeoForm()
     context = {
-        'title': 'CMS | Добавить фильм',
-        'sidebar_pages': sidebar_pages,
         'film_form': film_form,
         'seo_form': seo_form,
     }
@@ -102,62 +82,48 @@ class FilmListView(LoginRequiredMixin, ListView):
     template_name = 'cms/film/film_list.html'
     context_object_name = 'films'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'CMS | Фильмы'
-        context['sidebar_pages'] = sidebar_pages
-        return context
+
+class FilmDetailView(LoginRequiredMixin, DetailView):
+    pass
 
 
 @login_required(login_url='login_user')
 def cinema_list(request):
-    context = {
-        'title': 'CMS | Кинотеатры',
-        'sidebar_pages': sidebar_pages,
-    }
-    return render(request, 'cms/cinemas/cinemas_list.html', context=context)
+    context = {}
+    return render(request, 'cms/cinema/cinema_list.html', context=context)
 
 
 @login_required(login_url='login_user')
 def news_list(request):
     context = {
         'title': 'CMS | Новости',
-        'sidebar_pages': sidebar_pages,
     }
-    return render(request, 'cms/news/news_list.html', context=context)
+    return render(request, 'cms/page/page_list.html', context=context)
 
 
 @login_required(login_url='login_user')
-def actions_list(request):
+def action_list(request):
     context = {
         'title': 'CMS | Акции',
-        'sidebar_pages': sidebar_pages,
     }
-    return render(request, 'cms/actions/actions_list.html', context=context)
+    return render(request, 'cms/page/page_list.html', context=context)
 
 
 @login_required(login_url='login_user')
-def pages_list(request):
+def page_list(request):
     context = {
         'title': 'CMS | Страницы',
-        'sidebar_pages': sidebar_pages
     }
-    return render(request, 'cms/pages/pages_list.html', context=context)
+    return render(request, 'cms/page/page_list.html', context=context)
 
 
 @login_required(login_url='login_user')
 def users(request):
-    context = {
-        'title': 'CMS | Пользователи',
-        'sidebar_pages': sidebar_pages
-    }
-    return render(request, 'cms/users.html', context=context)
+    context = {}
+    return render(request, 'cms/user/user_list.html', context=context)
 
 
 @login_required(login_url='login_user')
 def mailing(request):
-    context = {
-        'title': 'CMS | Рассылка',
-        'sidebar_pages': sidebar_pages
-    }
+    context = {}
     return render(request, 'cms/mailing.html', context=context)
