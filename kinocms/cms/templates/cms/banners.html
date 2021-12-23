@@ -3,7 +3,7 @@
 
 
 {% block title %}
-   {{ title }}
+	CMS | Баннеры
 {% endblock %}
 
 
@@ -19,96 +19,96 @@
 </style>
 
 <div class="row mb-4 no-margin">
-  <div class="card">
-    <h5 class="card-header text-center">На главной верх</h5>
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          Размер: 1000x190
-        </div>
-        <div class="col-auto">
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="topBannerSwitch" checked>
-            <label class="form-check-label" for="topBannerSwitch"></label>
-          </div>
-        </div>
-      </div>
+	<div class="card">
+		<h5 class="card-header text-center">На главной верх</h5>
+		<div class="card-body">
+			<div class="row">
+				<div class="col">
+					Размер: 1000x190
+				</div>
+				<div class="col-auto">
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="topBannerSwitch" checked>
+						<label class="form-check-label" for="topBannerSwitch"></label>
+					</div>
+				</div>
+			</div>
 
-      <!-- top banner formset -->
-      <div class="row" style="margin-top: 10px;">
-        <form id="topBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
-          {% csrf_token %}
-          {{ formset.management_form }}
+			<!-- top banner formset -->
+			<div class="row" style="margin-top: 10px;">
+				<form id="topBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
+					{% csrf_token %}
+					{{ formset.management_form }}
 
-          <div id="top-banner-formset" class="row">
-            <div class="top-banner-form">
-                {{ top_banner_formset.as_p }}
-            </div>
+					<div id="top-banner-formset" class="row">
+						<div class="top-banner-form">
+							{{ top_banner_formset.as_p }}
+						</div>
 
-            <div>
-              <div id="top-banner-empty-form" class="hidden">{{ top_banner_formset.empty_form.as_p }}</div>
-            </div>
-          </div>
+						<div>
+							<div id="top-banner-empty-form" class="hidden">{{ top_banner_formset.empty_form.as_p }}</div>
+						</div>
+					</div>
 
-          <div class="text-center">
-            <p>
-              <input id="add-top-banner-form" type="button" value="Добавить запись">
-            </p>
-          </div>
-          <div class="text-center">
-            <p>
-              <input type="submit" value="Сохранить">
-            </p>
-          </div>
-        </form>
-      </div>
+					<div class="text-center">
+						<p>
+							<input id="add-top-banner-form" type="button" value="Добавить запись">
+						</p>
+					</div>
+					<div class="text-center">
+						<p>
+							<input type="submit" value="Сохранить">
+						</p>
+					</div>
+				</form>
+			</div>
 
-      <div class="row">
-        <div class="col">
-          Скорость вращения
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 80px; display: inline-block; margin-left: 5px;">
-            <option value="1">1 сек</option>
-            <option value="2">2 cек</option>
-            <option value="3">3 cек</option>
-            <option value="4">4 cек</option>
-            <option value="5" selected>5 cек</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
+			<div class="row">
+				<div class="col">
+					Скорость вращения
+					<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 80px; display: inline-block; margin-left: 5px;">
+						<option value="1">1 сек</option>
+						<option value="2">2 cек</option>
+						<option value="3">3 cек</option>
+						<option value="4">4 cек</option>
+						<option value="5" selected>5 cек</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 <div class="row mb-4 no-margin">
-  <div class="card">
-    <h5 class="card-header text-center">Сквозной баннер на заднем фоне</h5>
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          Размер: 2000x3000
-        </div>
-      </div>
+	<div class="card">
+		<h5 class="card-header text-center">Сквозной баннер на заднем фоне</h5>
+		<div class="card-body">
+			<div class="row">
+				<div class="col">
+					Размер: 2000x3000
+				</div>
+			</div>
 
-      <form class="row align-items-center"  style="margin-top: 20px;" id="backgroundBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
-        {% csrf_token %}
-        <div class="col-sm-auto form-check">
-          <p>
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-            <label class="form-check-label" for="flexRadioDefault1">Фото на фон</label>
-          </p>
-        </div>
-        <div class="col-sm-auto">
+			<form class="row align-items-center"  style="margin-top: 20px;" id="backgroundBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
+				{% csrf_token %}
+				<div class="col-sm-auto form-check">
+					<p>
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+						<label class="form-check-label" for="flexRadioDefault1">Фото на фон</label>
+					</p>
+				</div>
+				<div class="col-sm-auto">
 
-            {{ background_banner.as_p }}
+					{{ background_banner.as_p }}
 
-        </div>
-        <div class="col-sm-auto">
-          <p>
-            <img id="blah" src="#" class="hidden" alt="your image" width="200"/>
-          </p>
-        </div>
-        <script>
+				</div>
+				<div class="col-sm-auto">
+					<p>
+						<img id="blah" src="#" class="hidden" alt="your image" width="200"/>
+					</p>
+				</div>
+				<script>
           id_image.onchange = evt => {
             const [file] = id_image.files
             if (file) {
@@ -117,84 +117,84 @@
             }
           }
         </script>
-        <div class="col-sm-auto">
-          <p>
-            <input type="submit" value="Сохранить" style="width: 100px;">
-          </p>
-        </div>
-        <div class="col-sm-auto">
-          <p>
-            <input type="submit" value="Удалить" style="width: 100px;">
-          </p>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-          <label class="form-check-label" for="flexRadioDefault2">Простой фон</label>
-        </div>
-      </form>
-    </div>
-  </div>
+				<div class="col-sm-auto">
+					<p>
+						<input type="submit" value="Сохранить" style="width: 100px;">
+					</p>
+				</div>
+				<div class="col-sm-auto">
+					<p>
+						<input type="submit" value="Удалить" style="width: 100px;">
+					</p>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+					<label class="form-check-label" for="flexRadioDefault2">Простой фон</label>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 <div class="row no-margin">
-  <div class="card">
-    <h5 class="card-header text-center">На главной Новости и Акции</h5>
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          Размер: 1000x190
-        </div>
-        <div class="col-auto">
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="newsBannerSwitch" checked>
-            <label class="form-check-label" for="newsBannerSwitch"></label>
-          </div>
-        </div>
-      </div>
+	<div class="card">
+		<h5 class="card-header text-center">На главной Новости и Акции</h5>
+		<div class="card-body">
+			<div class="row">
+				<div class="col">
+					Размер: 1000x190
+				</div>
+				<div class="col-auto">
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="newsBannerSwitch" checked>
+						<label class="form-check-label" for="newsBannerSwitch"></label>
+					</div>
+				</div>
+			</div>
 
-      <!-- news banner formset -->
-      <div class="row" style="margin-top: 10px;">
-        <form id="newsBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
-          {% csrf_token %}
-          {{ formset.management_form }}
+			<!-- news banner formset -->
+			<div class="row" style="margin-top: 10px;">
+				<form id="newsBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
+					{% csrf_token %}
+					{{ formset.management_form }}
 
-          <div id="news-banner-formset" class="row">
-            <div class="news-banner-form">
-                {{ news_banner_formset.as_p }}
-            </div>
+					<div id="news-banner-formset" class="row">
+						<div class="news-banner-form">
+							{{ news_banner_formset.as_p }}
+						</div>
 
-            <div>
-              <div id="news-banner-empty-form" class="hidden">{{ news_banner_formset.empty_form.as_p }}</div>
-            </div>
-          </div>
+						<div>
+							<div id="news-banner-empty-form" class="hidden">{{ news_banner_formset.empty_form.as_p }}</div>
+						</div>
+					</div>
 
-          <div class="text-center">
-            <p>
-              <input id="add-news-banner-form" type="button" value="Добавить запись">
-            </p>
-          </div>
-          <div class="text-center">
-            <p>
-              <input type="submit" value="Сохранить">
-            </p>
-          </div>
-        </form>
-      </div>
+					<div class="text-center">
+						<p>
+							<input id="add-news-banner-form" type="button" value="Добавить запись">
+						</p>
+					</div>
+					<div class="text-center">
+						<p>
+							<input type="submit" value="Сохранить">
+						</p>
+					</div>
+				</form>
+			</div>
 
-      <div class="row">
-        <div class="col">
-          Скорость вращения
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 80px; display: inline-block; margin-left: 5px;">
-            <option value="1">1 сек</option>
-            <option value="2">2 cек</option>
-            <option value="3">3 cек</option>
-            <option value="4">4 cек</option>
-            <option value="5" selected>5 cек</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
+			<div class="row">
+				<div class="col">
+					Скорость вращения
+					<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 80px; display: inline-block; margin-left: 5px;">
+						<option value="1">1 сек</option>
+						<option value="2">2 cек</option>
+						<option value="3">3 cек</option>
+						<option value="4">4 cек</option>
+						<option value="5" selected>5 cек</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="{% static 'cms/js/add_top_banner_form.js' %}"></script>
