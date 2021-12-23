@@ -21,10 +21,10 @@
 	</title>
 
 	<style>
-      body {
-        background-color: #f8f9fa;
-      }
-    </style>
+		body {
+			background-color: #f8f9fa;
+		}
+	</style>
 </head>
 <body>
 	<!-- Wrapper -->
@@ -46,7 +46,7 @@
 								<span style="margin-left: 5px; color: #000;">Administrator</span>
 							</a>
 						</li>
-						<!-- LogOut Button -->
+					<!-- LogOut Button -->
 						<li class="nav-item">
 							<a href="{% url 'logout_user' %}" class="nav-link">
 								<img src="{% static 'img/power.svg' %}" alt="Power off button" width="30" height="30">
@@ -66,15 +66,61 @@
 						<aside>
 							<div class="shadow-sm p-3 mb-4 bg-body rounded d-flex flex-column flex-shrink-0 p-3 bg-light">
 								<ul class="nav nav-pills flex-column mb-auto">
+									<li class="nav-item">
+										<a href="{% url 'statistics' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Статистика
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{% url 'banners' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Баннеры/Слайдеры
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{% url 'film_list' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Фильмы
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{% url 'cinema_list' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Кинотеатры
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{% url 'news_list' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Новости
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{% url 'actions_list' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Акции
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{% url 'page_list' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Страницы
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{% url 'users' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Пользователи
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{% url 'mailing' %}" class="nav-link link-dark" aria-current="page">
+											<i class="bi bi-circle" style="margin-right: 5px;"></i>
+											Рассылка
+										</a>
+									</li>
 
-									{% for page in sidebar_pages %}
-										<li class="nav-item">
-											<a href="{% url page.url %}" class="nav-link link-dark" aria-current="page">
-												<i class="bi bi-circle" style="margin-right: 5px;"></i>
-												{{ page.title }}
-											</a>
-										</li>
-									{% endfor %}
 
 								</ul>
 							</div>
@@ -84,7 +130,6 @@
 						<!-- Content -->
 						<article>
 
-							{% block page_name %}{% endblock %}
 							{% block content %}{% endblock %}
 
 						</article>
