@@ -18,6 +18,7 @@
   }
 </style>
 
+<!-- Top Banner Form card -->
 <div class="row mb-4 no-margin">
 	<div class="card">
 		<h5 class="card-header text-center">На главной верх</h5>
@@ -38,7 +39,6 @@
 			<div class="row" style="margin-top: 10px;">
 				<form id="topBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
 					{% csrf_token %}
-					{{ formset.management_form }}
 
 					<div id="top-banner-formset" class="row">
 						<div class="top-banner-form">
@@ -79,7 +79,7 @@
 	</div>
 </div>
 
-
+<!-- Background Banner Form card -->
 <div class="row mb-4 no-margin">
 	<div class="card">
 		<h5 class="card-header text-center">Сквозной баннер на заднем фоне</h5>
@@ -136,6 +136,7 @@
 	</div>
 </div>
 
+<!-- News Banner Form card -->
 <div class="row no-margin">
 	<div class="card">
 		<h5 class="card-header text-center">На главной Новости и Акции</h5>
@@ -156,7 +157,6 @@
 			<div class="row" style="margin-top: 10px;">
 				<form id="newsBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
 					{% csrf_token %}
-					{{ formset.management_form }}
 
 					<div id="news-banner-formset" class="row">
 						<div class="news-banner-form">
