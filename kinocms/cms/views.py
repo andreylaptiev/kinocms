@@ -53,15 +53,19 @@ def banners(request):
 def film_add(request):
     film_form = forms.FilmForm()
     seo_form = forms.SeoForm()
+    image_formset = forms.ImageFormSet()
     context = {
         'film_form': film_form,
         'seo_form': seo_form,
+        'image_formset': image_formset
     }
 
     if request.method == 'POST':
         film_form = forms.FilmForm(request.POST, request.FILES)
         seo_form = forms.SeoForm(request.POST, request.FILES)
-        if film_form.is_valid() and seo_form.is_valid():
+        image_formset = forms.ImageFormSet(request.POST, request.FILES)
+
+        if film_form.is_valid() and seo_form.is_valid() and image_formset.is_valid():
             seo_form.save()
             seo_url = seo_form.cleaned_data['url']
             current_seo = models.Seo.objects.get(url=seo_url)
@@ -71,7 +75,13 @@ def film_add(request):
             film.gallery = models.Gallery.objects.create(name=film_name)
             film.seo = current_seo
             film.save()
+
+            images = image_formset.save(commit=False)
+            for image in images:
+                image.gallery = models.Gallery.objects.get(name=film_name)
+                image.save()
         return redirect('film_list')
+
     else:
         return render(request, 'cms/film/film_form.html', context=context)
 
