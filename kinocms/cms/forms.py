@@ -34,6 +34,19 @@ class FilmForm(forms.ModelForm):
             )
 
 
+class ImageForm(forms.ModelForm):
+    image = forms.ImageField(label='', widget=forms.FileInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = models.Image
+        fields = ['image']
+
+
+ImageFormSet = forms.modelformset_factory(models.Image,
+                                          form=ImageForm,
+                                          extra=0)
+
+
 class SeoForm(forms.ModelForm):
     seo_description = forms.CharField(label='Description',
                                       widget=Textarea(attrs={'rows': 3})
@@ -53,7 +66,7 @@ class SeoForm(forms.ModelForm):
 
 
 class MainPageTopBannerForm(forms.ModelForm):
-    image = forms.ImageField(label='Картинка')
+    image = forms.ImageField(label='')
     url = forms.URLField(label='URL')
     text = forms.CharField(label='Текст')
 
@@ -86,7 +99,7 @@ class BackgroundBannerForm(forms.ModelForm):
 
 
 class MainPageNewsBannerForm(forms.ModelForm):
-    image = forms.ImageField(label='Картинка')
+    image = forms.ImageField(label='')
     url = forms.URLField(label='URL')
 
     class Meta:
