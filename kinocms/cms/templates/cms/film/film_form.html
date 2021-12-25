@@ -100,10 +100,10 @@
 			{{ image_formset.management_form }}
 				<div id="image-empty-form" class="hidden">
 					<p>
-						{{ image_formset.empty_form }}
+						<img id="id_form-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" height="110"/>
 					</p>
 					<p>
-						<img id="id_form-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" width="200"/>
+						{{ image_formset.empty_form }}
 					</p>
 				</div>
 			</div>
