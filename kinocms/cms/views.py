@@ -53,7 +53,7 @@ def banners(request):
 def film_add(request):
     film_form = forms.FilmForm()
     seo_form = forms.SeoForm()
-    image_formset = forms.ImageFormSet()
+    image_formset = forms.ImageFormSet(queryset=models.Image.objects.none())
     context = {
         'film_form': film_form,
         'seo_form': seo_form,
