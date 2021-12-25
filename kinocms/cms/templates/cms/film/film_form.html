@@ -1,13 +1,23 @@
 {% extends 'cms/layout.html' %}
+{% load static %}
 
 {% block title %}
 	CMS | Добавить фильм
 {% endblock %}
 
 {% block content %}
+
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+
 <div class="row justify-content-end mb-3"  style="margin-right: 0px;">
 	Выбор языка (Украинский / Русский)
 </div>
+
+<!-- Film Form -->
 <form enctype="multipart/form-data" action="{% url 'film_add' %}" method="post">
 	{% csrf_token %}
 	{% for field in film_form %}
@@ -78,7 +88,34 @@
 	{% endif %}
 	{% endfor %}
 
+	<!-- Image Gallery FormSet -->
+	<div class="row align-items-center">
+		<div class="col-sm-3">
+			<p>
+				Галерея картинок
+			</p>
+		</div>
+		<div class="col">
+			<div id="image-formset" class="row">
+			{{ image_formset.management_form }}
+				<div id="image-empty-form" class="hidden">
+					<p>
+						{{ image_formset.empty_form }}
+					</p>
+					<p>
+						<img id="id_form-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" width="200"/>
+					</p>
+				</div>
+			</div>
+			<div class="text-center">
+				<p>
+					<input id="add-image-form" type="button" value="Добавить картинку">
+				</p>
+			</div>
+		</div>
+	</div>
 
+	<!-- Seo Form -->
 	<div class="row align-items-center">
 		<div class="col-sm-3 align-self-start">
 			<p>
@@ -111,4 +148,7 @@
 	</div>
 
 </form>
+
+<script src="{% static 'cms/js/add_image_form.js' %}"></script>
+
 {% endblock %}
