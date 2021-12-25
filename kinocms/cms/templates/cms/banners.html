@@ -1,7 +1,6 @@
 {% extends 'cms/layout.html' %}
 {% load static %}
 
-
 {% block title %}
 	CMS | Баннеры
 {% endblock %}
@@ -41,15 +40,18 @@
 					{% csrf_token %}
 
 					<div id="top-banner-formset" class="row">
-						<div class="top-banner-form">
-							{{ top_banner_formset.as_p }}
-						</div>
-
-						<div>
-							<div id="top-banner-empty-form" class="hidden">{{ top_banner_formset.empty_form.as_p }}</div>
+					{{ top_banner_formset.management_form }}
+						<div id="top-banner-empty-form" class="hidden">
+							<p>
+								<img id="id_top_banner-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" height="110"/>
+							</p>
+							{% for field in top_banner_formset.empty_form %}
+							<p>
+								{{ field }}
+							</p>
+							{% endfor %}
 						</div>
 					</div>
-
 					<div class="text-center">
 						<p>
 							<input id="add-top-banner-form" type="button" value="Добавить запись">
