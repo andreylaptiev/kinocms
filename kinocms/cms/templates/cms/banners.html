@@ -38,7 +38,6 @@
 			<div class="row" style="margin-top: 10px;">
 				<form id="topBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
 					{% csrf_token %}
-
 					<div id="top-banner-formset" class="row">
 					{{ top_banner_formset.management_form }}
 						<div id="top-banner-empty-form" class="hidden">
@@ -107,15 +106,15 @@
 				</div>
 				<div class="col-sm-auto">
 					<p>
-						<img id="blah" src="#" class="hidden" alt="your image" width="200"/>
+						<img id="backgroundUploadedImage" src="#" class="hidden" alt="your image" height="110"/>
 					</p>
 				</div>
 				<script>
           id_image.onchange = evt => {
             const [file] = id_image.files
             if (file) {
-              blah.src = URL.createObjectURL(file)
-              blah.setAttribute('class', '')
+              backgroundUploadedImage.src = URL.createObjectURL(file)
+              backgroundUploadedImage.setAttribute('class', '')
             }
           }
         </script>
@@ -159,17 +158,19 @@
 			<div class="row" style="margin-top: 10px;">
 				<form id="newsBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
 					{% csrf_token %}
-
 					<div id="news-banner-formset" class="row">
-						<div class="news-banner-form">
-							{{ news_banner_formset.as_p }}
-						</div>
-
-						<div>
-							<div id="news-banner-empty-form" class="hidden">{{ news_banner_formset.empty_form.as_p }}</div>
+					{{ news_banner_formset.management_form }}
+						<div id="news-banner-empty-form" class="hidden">
+							<p>
+								<img id="id_news_banner-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" height="110"/>
+							</p>
+							{% for field in news_banner_formset.empty_form %}
+							<p>
+								{{ field }}
+							</p>
+							{% endfor %}
 						</div>
 					</div>
-
 					<div class="text-center">
 						<p>
 							<input id="add-news-banner-form" type="button" value="Добавить запись">
