@@ -16,25 +16,26 @@ def statistics(request):
 @login_required(login_url='login_user')
 def banners(request):
     if request.method == 'POST':
-        top_banner_formset = forms.MainPageTopBannerFormSet(request.POST, request.FILES, prefix='top_banners')
+        top_banner_formset = forms.MainPageTopBannerFormSet(request.POST, request.FILES, prefix='top_banner')
         background_banner = forms.BackgroundBannerForm(request.POST, request.FILES)
-        news_banner_formset = forms.MainPageNewsBannerFormSet(request.POST, request.FILES, prefix='news_banners')
+        news_banner_formset = forms.MainPageNewsBannerFormSet(request.POST, request.FILES, prefix='news_banner')
         if top_banner_formset.is_valid():
             top_banner_formset.save()
             return redirect('banners')
         elif background_banner.is_valid():
-            background_banner.save()
+            bg_banner = background_banner.save(commit=False)
+            gallery = models.Gallery.objects.get(name='main_page')
+            bg_banner.gallery = gallery
+            bg_banner.save()
             return redirect('banners')
         elif news_banner_formset.is_valid():
             news_banner_formset.save()
             return redirect('banners')
-
     else:
-        top_banner_formset = forms.MainPageTopBannerFormSet(queryset=models.MainPageTopBanner.objects.none(),
-                                                            prefix='top_banner')
+        top_banner_formset = forms.MainPageTopBannerFormSet(prefix='top_banner')
         background_banner = forms.BackgroundBannerForm()
         news_banner_formset = forms.MainPageNewsBannerFormSet(queryset=models.MainPageNewsBanner.objects.none(),
-                                                              prefix='news_banners')
+                                                              prefix='news_banner')
         context = {
             'top_banner_formset': top_banner_formset,
             'background_banner': background_banner,
@@ -63,7 +64,6 @@ def film_add(request):
                 image.gallery = models.Gallery.objects.get(name=film_name)
                 image.save()
         return redirect('film_list')
-
     else:
         film_form = forms.FilmForm()
         seo_form = forms.SeoForm()
