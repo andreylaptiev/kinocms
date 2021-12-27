@@ -30,3 +30,48 @@ function add_top_banner_form(event) {
     }
   }
 }
+
+// check image size. submit form if all images fit
+let imageInput;
+let imageSizeStatus = [];
+let topBannerForm = document.getElementById('topBannerForm');
+topBannerForm.submit( function ( e ){
+  e.preventDefault()
+  let currentFormCount = document.getElementById('id_top_banner-TOTAL_FORMS');
+  for (i=currentFormCount; i>=0; i--) {
+    imageInput = document.getElementById(`id_top_banner-${i}-image`);
+    let file = fileInput.files[0];
+    if ( file ) {
+      let img = new Image();
+
+      img.src = URL.createObjectURL( file );
+
+      img.onload = function() {
+        let width = img.naturalWidth;
+        let height = img.naturalHeight;
+
+        URL.revokeObjectURL( img.src );
+
+        if( width == 1000 && height == 190 ) {
+          imageSizeStatus.push('OK');
+          continue;
+        }
+        else {
+          imageSizeStatus.push('FAIL');
+          continue;
+        };
+      };
+    };
+    // no file go to next input
+    else {
+      continue;
+    };
+  }
+  // check if any image from input failed size check
+  if ( imageSizeStatus.includes('FAIL') ) {
+    alert('Fail');
+    };
+  else {
+    form.submit();
+  };
+});
