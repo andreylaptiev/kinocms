@@ -28,8 +28,8 @@
 				</div>
 				<div class="col-auto">
 					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="topBannerSwitch" checked>
-						<label class="form-check-label" for="topBannerSwitch"></label>
+						<input class="form-check-input" type="checkbox" id="top-banner-switch" checked>
+						<label class="form-check-label" for="top-banner-switch"></label>
 					</div>
 				</div>
 			</div>
@@ -46,14 +46,12 @@
 						</div>
 						{% endfor %}
 						<div id="top-banner-empty-form" class="hidden">
-							<p>
-								<img id="id_top_banner-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" height="110"/>
-							</p>
-							{% for form in top_banner_formset.empty_form %}
-							<p>
-								{{ form }}
-							</p>
-							{% endfor %}
+							<div class="text-center">
+								<p>
+									<img id="id_top_banner-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" width="280"/>
+								</p>
+							</div>
+							{{ top_banner_formset.empty_form.as_p }}
 						</div>
 					</div>
 					<div class="text-center">
@@ -63,7 +61,7 @@
 					</div>
 					<div class="text-center">
 						<p>
-							<input type="submit" value="Сохранить">
+							<input id="submit-top-banner-form" type="submit" value="Сохранить">
 						</p>
 					</div>
 				</form>
@@ -96,46 +94,37 @@
 				</div>
 			</div>
 
-			<form class="row align-items-center"  style="margin-top: 20px;" id="backgroundBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
+			<form class="row align-items-center"  style="margin-top: 15px;" id="backgroundBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
 				{% csrf_token %}
-				<div class="col-sm-auto form-check">
+				<div class="col-sm-2 form-check">
 					<p>
-						<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-						<label class="form-check-label" for="flexRadioDefault1">Фото на фон</label>
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="banner-background" checked>
+						<label class="form-check-label" for="banner-background">Фото на фон</label>
 					</p>
-				</div>
-				<div class="col-sm-auto text-center">
-
-					{{ background_banner.as_p }}
-
-				</div>
-				<div class="col-sm-auto text-center">
 					<p>
-						<img id="backgroundUploadedImage" src="#" class="hidden" alt="your image" width="200"/>
-					</p>
-				</div>
-				<script>
-          id_image.onchange = evt => {
-            const [file] = id_image.files
-            if (file) {
-              backgroundUploadedImage.src = URL.createObjectURL(file)
-              backgroundUploadedImage.setAttribute('class', '')
-            }
-          }
-        </script>
-				<div class="col-sm-auto text-center">
-					<p>
-						<input type="submit" value="Сохранить" style="width: 100px;">
+						<input class="form-check-input" type="radio" name="flexRadioDefault" id="color-background">
+						<label class="form-check-label" for="color-background">Простой фон</label>
 					</p>
 				</div>
 				<div class="col-sm-auto text-center">
 					<p>
-						<input type="submit" value="Удалить" style="width: 100px;">
+					{{ background_banner }}
 					</p>
 				</div>
-				<div class="form-check">
-					<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-					<label class="form-check-label" for="flexRadioDefault2">Простой фон</label>
+				<div class="col-sm-auto text-center">
+					<p>
+						<img id="background-banner-uploaded-image" src="#" class="hidden" alt="your image" width="130"/>
+					</p>
+				</div>
+				<div class="col-sm-auto text-center">
+					<p>
+						<input id="submit-background-banner-form" type="submit" value="Сохранить" style="width: 100px;">
+					</p>
+				</div>
+				<div class="col-sm-auto text-center">
+					<p>
+						<input id="delete-background-banner-form" type="submit" value="Удалить" style="width: 100px;">
+					</p>
 				</div>
 			</form>
 		</div>
@@ -153,8 +142,8 @@
 				</div>
 				<div class="col-auto">
 					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="newsBannerSwitch" checked>
-						<label class="form-check-label" for="newsBannerSwitch"></label>
+						<input class="form-check-input" type="checkbox" id="news-banner-switch" checked>
+						<label class="form-check-label" for="news-banner-switch"></label>
 					</div>
 				</div>
 			</div>
@@ -163,17 +152,20 @@
 			<div class="row" style="margin-top: 10px;">
 				<form id="newsBannerForm" enctype="multipart/form-data" method="post" action="{% url 'banners' %}">
 					{% csrf_token %}
-					<div id="news-banner-formset" class="row">
 					{{ news_banner_formset.management_form }}
+					<div id="news-banner-formset" class="row">
+						{% for form in news_banner_formset %}
+						<div class="col-sm-4 news-banner-form">
+							{{ form.as_p }}
+						</div>
+						{% endfor %}
 						<div id="news-banner-empty-form" class="hidden">
-							<p>
-								<img id="id_news_banner-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" height="110"/>
-							</p>
-							{% for field in news_banner_formset.empty_form %}
-							<p>
-								{{ field }}
-							</p>
-							{% endfor %}
+							<div class="text-center">
+								<p>
+									<img id="id_news_banner-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" width="280"/>
+								</p>
+							</div>
+							{{ news_banner_formset.empty_form.as_p }}
 						</div>
 					</div>
 					<div class="text-center">
@@ -183,7 +175,7 @@
 					</div>
 					<div class="text-center">
 						<p>
-							<input type="submit" value="Сохранить">
+							<input id="submit-news-banner-form" type="submit" value="Сохранить">
 						</p>
 					</div>
 				</form>
@@ -205,8 +197,6 @@
 	</div>
 </div>
 
-<script src="{% static 'cms/js/add_top_banner_form.js' %}"></script>
-<script src="{% static 'cms/js/add_news_banner_form.js' %}"></script>
-<script src="{% static 'cms/js/image_size_check.js' %}"></script>
+<script src="{% static 'cms/js/cms.banners.js' %}"></script>
 
 {% endblock %}
