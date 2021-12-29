@@ -1,0 +1,159 @@
+{% extends 'cms/layout.html' %}
+{% load static %}
+
+{% block title %}
+	CMS | Изменить фильм
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+
+<div class="row justify-content-end mb-3"  style="margin-right: 0px;">
+	Выбор языка (Украинский / Русский)
+</div>
+
+<!-- Film Form -->
+<form enctype="multipart/form-data" action="{% url 'film_update' film_id=film_form.instance.pk %}" method="post">
+	{% csrf_token %}
+	{% for field in film_form %}
+
+	{% if field.name == 'formats' %}
+	<div class="row align-items-center">
+		<div class="col-sm-3">
+			<p>
+				<label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+			</p>
+		</div>
+		<div class="col">
+			{% for choice in film_form.FILM_FORMAT_CHOICES %}
+			<div class="form-check form-check-inline">
+				<p>
+					<input class="form-check-input film-formats-checkbox" type="checkbox" name="{{ field.name }}" id="{{ field.auto_id }}" value="{{ choice.0 }}">
+					<label class="form-check-label" for="{{ field.auto_id }}">{{ choice.1 }}</label>
+				</p>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	{% elif field.name == 'genre' %}
+	<div class="row align-items-center">
+		<div class="col-sm-3">
+			<p>
+				<label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+			</p>
+		</div>
+		<div class="col">
+			{% for choice in film_form.GENRE_CHOICES %}
+				<div class="form-check form-check-inline">
+					<p>
+						<input class="form-check-input" type="radio" name="{{ field.name }}" id="{{ field.auto_id }}" value="{{ choice.0 }}">
+						<label class="form-check-label" for="{{ field.auto_id }}">{{ choice.1 }}</label>
+					</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	{% elif field.name == 'is_active' %}
+	<div class="row align-items-center">
+		<div class="col-sm-3">
+			<p>
+				<label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+			</p>
+		</div>
+		<div class="col">
+			<p>
+				<input class="form-check-input" type="checkbox" name="{{ field.name }}" id="{{ field.auto_id }}" value="True">
+			</p>
+		</div>
+	</div>
+
+	{% else %}
+	<div class="row align-items-center">
+		<div class="col-sm-3">
+			<p>
+				<label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+			</p>
+		</div>
+		<div class="col">
+			<p>{{ field }}</p>
+		</div>
+	</div>
+	{% endif %}
+	{% endfor %}
+
+	<!-- Image Gallery FormSet -->
+	<div class="row align-items-center">
+		<div class="col-sm-3">
+			<p>
+				Галерея картинок
+			</p>
+		</div>
+		<div class="col">
+			{{ image_formset.management_form }}
+			<div id="image-formset" class="row">
+				{% for form in image_formset %}
+				<div class="col-sm-4 image-form">
+					{{ form.as_p }}
+				</div>
+				{% endfor %}
+				<div id="image-empty-form" class="hidden">
+					<div class="text-center">
+						<p>
+							<img id="id_form-__prefix__-uploaded-image" src="#" class="hidden" alt="your image" width="200"/>
+						</p>
+					</div>
+					{{ image_formset.empty_form.as_p }}
+				</div>
+			</div>
+			<div class="text-center">
+				<p>
+					<input id="add-image-form" type="button" value="Добавить картинку">
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Seo Form -->
+	<div class="row align-items-center">
+		<div class="col-sm-3 align-self-start">
+			<p>
+				SEO-блок
+			</p>
+		</div>
+		<div class="col">
+			{% for field in seo_form %}
+			<div class="row align-items-center">
+				<div class="col-sm-2 d-flex justify-content-end">
+					<p>
+						<label class="form-label" for="{{ field.auto_id }}">{{ field.label }}:</label>
+					</p>
+				</div>
+				<div class="col">
+					<p>{{ field }}</p>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+
+	<div class="row align-items-center justify-content-center">
+		<div class="col-auto align-self-center">
+			<p>
+				<input type="submit" value="Сохранить">
+			</p>
+		</div>
+	</div>
+
+</form>
+
+<script src="{% static 'cms/js/cms.film.js' %}"></script>
+
+{% endblock %}
