@@ -24,7 +24,9 @@
 		<div class="col-sm-4 justify-content-center text-center">
 			{% if film.main_image %}
 			<div style="margin-bottom: 10px;">
-				<img src="{{ film.main_image.url }}" alt="Film picture" width="225" height="300">
+				<a href="{{ film.get_absolute_url }}">
+					<img src="{{ film.main_image.url }}" alt="Film picture" width="225" height="300">
+				</a>
 			</div>
 			{% endif %}
 			<h5>{{ film.name }}</h5>
@@ -46,7 +48,9 @@
 		<div class="col-sm-4 justify-content-center text-center">
 			{% if film.main_image %}
 			<div style="margin-bottom: 10px;">
-				<img src="{{ film.main_image.url }}" alt="Film picture" width="225" height="300">
+				<a href="{{ film.get_absolute_url }}">
+					<img src="{{ film.main_image.url }}" alt="Film picture" width="225" height="300">
+				</a>
 			</div>
 			{% endif %}
 			<h5>{{ film.name }}</h5>
