@@ -117,7 +117,7 @@ class Film(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('film_detail', kwargs={'id': self.pk})
+        return reverse('film_update', kwargs={'film_id': self.pk})
 
     class Meta:
         verbose_name = 'фильм'
@@ -188,8 +188,8 @@ class MainPageTopBanner(models.Model):
     text = models.CharField(max_length=100)
 
     class Meta:
-        verbose_name = 'баннеры фильмов'
-        verbose_name_plural = 'баннеры фильмов'
+        verbose_name = 'главная - баннеры верх'
+        verbose_name_plural = 'главная - баннеры верх'
 
 
 class MainPageNewsBanner(models.Model):
@@ -197,5 +197,5 @@ class MainPageNewsBanner(models.Model):
     url = models.URLField(verbose_name='URL')
 
     class Meta:
-        verbose_name = 'баннеры новостей'
-        verbose_name_plural = 'баннеры новостей'
+        verbose_name = 'главная - баннеры новостей'
+        verbose_name_plural = 'главная - баннеры новостей'
