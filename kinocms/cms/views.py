@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from . import forms
@@ -67,7 +67,7 @@ def film_add(request):
     else:
         film_form = forms.FilmForm()
         seo_form = forms.SeoForm()
-        image_formset = forms.ImageFormSet(queryset=models.Image.objects.none())
+        image_formset = forms.ImageFormSet()
         context = {
             'film_form': film_form,
             'seo_form': seo_form,
@@ -76,15 +76,33 @@ def film_add(request):
         return render(request, 'cms/film/film_form.html', context=context)
 
 
+@login_required(login_url='login_user')
+def film_update(request, film_id):
+    if request.method == 'POST':
+        film_form = forms.FilmForm(request.POST, request.FILES)
+        if film_form.is_valid():
+            film_form.save()
+        return redirect('film_list')
+    else:
+        film = get_object_or_404(models.Film, id=film_id)
+        seo = film.seo
+        image_queryset = models.Image.objects.filter(gallery=film.gallery)
+        film_form = forms.FilmForm(instance=film)
+        seo_form = forms.SeoForm(instance=seo)
+        image_formset = forms.ImageFormSet(queryset=image_queryset)
+        context = {
+            'film_form': film_form,
+            'seo_form': seo_form,
+            'image_formset': image_formset
+        }
+        return render(request, 'cms/film/film_update.html', context)
+
+
 class FilmListView(LoginRequiredMixin, ListView):
     login_url = 'login_user'
     model = models.Film
     template_name = 'cms/film/film_list.html'
     context_object_name = 'films'
-
-
-class FilmDetailView(LoginRequiredMixin, DetailView):
-    pass
 
 
 @login_required(login_url='login_user')
