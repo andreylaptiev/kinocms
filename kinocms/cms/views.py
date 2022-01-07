@@ -16,14 +16,16 @@ def statistics(request):
 @login_required(login_url='login_user')
 def banners(request):
     if request.method == 'POST':
-        top_banner_formset = forms.MainPageTopBannerFormSet(request.POST, request.FILES, prefix='top_banner')
-        background_banner = forms.BackgroundBannerForm(request.POST, request.FILES)
+        top_banner_formset = forms.MainPageTopBannerFormSet(request.POST, request.FILES,
+                                                            queryset=models.MainPageTopBanner.objects.none(),
+                                                            prefix='top_banner')
+        background_banner_form = forms.ImageForm(request.POST, request.FILES)
         news_banner_formset = forms.MainPageNewsBannerFormSet(request.POST, request.FILES, prefix='news_banner')
         if top_banner_formset.is_valid():
             top_banner_formset.save()
             return redirect('banners')
-        elif background_banner.is_valid():
-            bg_banner = background_banner.save(commit=False)
+        elif background_banner_form.is_valid():
+            bg_banner = background_banner_form.save(commit=False)
             gallery = models.Gallery.objects.get(name='main_page')
             bg_banner.gallery = gallery
             bg_banner.save()
@@ -32,16 +34,20 @@ def banners(request):
             news_banner_formset.save()
             return redirect('banners')
     else:
-        top_banner_formset = forms.MainPageTopBannerFormSet(prefix='top_banner')
-        background_banner = forms.BackgroundBannerForm()
-        news_banner_formset = forms.MainPageNewsBannerFormSet(queryset=models.MainPageNewsBanner.objects.none(),
-                                                              prefix='news_banner')
+        top_banners = models.MainPageTopBanner.objects.all()
+        top_banner_formset = forms.MainPageTopBannerFormSet(queryset=models.MainPageTopBanner.objects.none(),
+                                                            prefix='top_banner')
+        bg_banner = models.Image.objects.get(gallery__name='main_page')
+        background_banner_form = forms.ImageForm()
+        news_banner_formset = forms.MainPageNewsBannerFormSet(prefix='news_banner')
         context = {
             'top_banner_formset': top_banner_formset,
-            'background_banner': background_banner,
+            'background_banner_form': background_banner_form,
             'news_banner_formset': news_banner_formset,
+            'top_banners': top_banners,
+            'bg_banner': bg_banner,
         }
-        return render(request, 'cms/banners.html', context=context)
+        return render(request, 'cms/banners.html', context)
 
 
 @login_required(login_url='login_user')
@@ -67,7 +73,9 @@ def film_add(request):
     else:
         film_form = forms.FilmForm()
         seo_form = forms.SeoForm()
-        image_formset = forms.ImageFormSet()
+        # Don't pull images from model when creating new film
+        image_qs = models.Image.objects.none()
+        image_formset = forms.ImageFormSet(queryset=image_qs)
         context = {
             'film_form': film_form,
             'seo_form': seo_form,
