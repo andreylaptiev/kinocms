@@ -11,7 +11,7 @@ function addTopBannerForm(event) {
   }
   const formCopyTarget = document.getElementById('top-banner-formset');
   const copyEmptyTopBannerForm = document.getElementById('top-banner-empty-form').cloneNode(true);
-  copyEmptyTopBannerForm.setAttribute('class', 'col-md-4 align-self-end justify-content-center top-banner-form');
+  copyEmptyTopBannerForm.setAttribute('class', 'col-md-4 align-self-end top-banner-form');
   const currentTopBannerFormsCount = document.getElementsByClassName('top-banner-form').length;
   copyEmptyTopBannerForm.setAttribute('id', `form-${currentTopBannerFormsCount}`);
   const regex = new RegExp('__prefix__', 'g');
@@ -58,34 +58,39 @@ function addTopBannerForm(event) {
 const backgroundBannerImageField = document.getElementById('id_image')
 const uploadedBackgroundBanner = document.getElementById('background-banner-uploaded-image')
 
-backgroundBannerImageField.onchange = evt => {
-  const [file] = backgroundBannerImageField.files
-  if (file) {
-    uploadedBackgroundBanner.src = URL.createObjectURL(file);
-    uploadedBackgroundBanner.setAttribute('class', '');
-    // check image size
-    let img = new Image();
-    img.src = uploadedBackgroundBanner.src;
-    img.onload = function() {
-      let width = img.naturalWidth;
-      let height = img.naturalHeight;
+if (backgroundBannerImageField) {
+  displayImageAndCheckSize();
+};
 
-      URL.revokeObjectURL( img.src );
-      // disable 'submit' button unless image size matches required
-      if( width == 2000 && height == 3000 ) {
-        document.getElementById('submit-background-banner-form').disabled = false;
-        document.getElementById('delete-background-banner-form').disabled = false;
-        return
-      }
-      else {
-        document.getElementById('submit-background-banner-form').disabled = true;
-        document.getElementById('delete-background-banner-form').disabled = true;
-        return
+function displayImageAndCheckSize() {
+  backgroundBannerImageField.onchange = evt => {
+    const [file] = backgroundBannerImageField.files
+    if (file) {
+      uploadedBackgroundBanner.src = URL.createObjectURL(file);
+      uploadedBackgroundBanner.setAttribute('class', '');
+      // check image size
+      let img = new Image();
+      img.src = uploadedBackgroundBanner.src;
+      img.onload = function() {
+        let width = img.naturalWidth;
+        let height = img.naturalHeight;
+
+        URL.revokeObjectURL( img.src );
+        // disable 'submit' button unless if image size doesn't match required
+        if( width == 2000 && height == 3000 ) {
+          document.getElementById('submit-background-banner-form').disabled = false;
+          document.getElementById('delete-background-banner-form').disabled = false;
+          return
+        }
+        else {
+          document.getElementById('submit-background-banner-form').disabled = true;
+          document.getElementById('delete-background-banner-form').disabled = true;
+          return
+        };
       };
     };
   };
-};
-
+}
 
 /*
   Add empty news banner form
