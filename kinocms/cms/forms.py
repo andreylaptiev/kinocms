@@ -35,7 +35,9 @@ class FilmForm(forms.ModelForm):
 
 
 class ImageForm(forms.ModelForm):
-    image = forms.ImageField(label='', widget=forms.FileInput(attrs={'class': 'form-control'}))
+    image = forms.ImageField(label='',
+                             widget=forms.FileInput(attrs={'class': 'form-control'})
+                             )
 
     class Meta:
         model = models.Image
@@ -85,17 +87,8 @@ class MainPageTopBannerForm(forms.ModelForm):
 
 MainPageTopBannerFormSet = forms.modelformset_factory(models.MainPageTopBanner,
                                                       form=MainPageTopBannerForm,
-                                                      can_delete=True,
                                                       extra=0
                                                       )
-
-
-class BackgroundBannerForm(forms.ModelForm):
-    image = forms.ImageField(label='', widget=forms.FileInput(attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = models.Image
-        exclude = ['gallery']
 
 
 class MainPageNewsBannerForm(forms.ModelForm):
@@ -117,6 +110,5 @@ class MainPageNewsBannerForm(forms.ModelForm):
 
 MainPageNewsBannerFormSet = forms.modelformset_factory(models.MainPageNewsBanner,
                                                        form=MainPageNewsBannerForm,
-                                                       can_delete=True,
                                                        extra=0
                                                        )
